@@ -1,0 +1,22 @@
+name: refrags
+
+services:
+  mariadb:
+    image: mariadb:latest
+    container_name: refrags-mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: refrags
+    ports:
+      - "3306:3306"
+    volumes:
+      - refrags_mariadb_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-ppassword"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+volumes:
+  refrags_mariadb_data: {}
